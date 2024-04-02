@@ -100,8 +100,9 @@ See the CONFIGURATION section for `sendemail.multiEdit`.
 	the `--[no-]chain-reply-to` setting.
 +
 So for example when `--thread` and `--no-chain-reply-to` are specified, the
-second and subsequent patches will be replies to the first one like in the
-illustration below where `[PATCH v2 0/3]` is in reply to `[PATCH 0/2]`:
+second (`-v2`) and subsequent patches (`-v3`, ...) will be replies to the
+first one like in the illustration below where `[PATCH v2 0/3]` is in reply
+to `[PATCH 0/2]`:
 +
   [PATCH 0/2] Here is what I did...
     [PATCH 1/2] Clean up and tests
@@ -464,6 +465,29 @@ default to `--validate`.
 
 --force::
 	Send emails even if safety checks would prevent it.
+
+
+Iterating
+~~~~~~~~~
+
+--rfc::
+	Prepends "RFC" to the subject prefix (producing "RFC PATCH" by
+	default). RFC means "Request For Comments"; use this when sending
+	an experimental patch for discussion rather than application.
+
+-v <string>::
+--reroll-count=<string>::
+	Mark the series as the <string>-th iteration of the topic. The
+	output filenames have `v<string>` prepended to them, and the
+	subject prefix ("PATCH" by default, but configurable via the
+	`--subject-prefix` option) has ` v<string>` appended to it.  E.g.
+	`--reroll-count=4` may produce `v4-0001-add-makefile.patch`
+	file that has "Subject: [PATCH v4 1/20] Add makefile" in it.
+	`<string>` does not have to be an integer (e.g. "--reroll-count=4.4",
+	or "--reroll-count=4rev2" are allowed), but the downside of
+	using such a reroll-count is that the range-diff/interdiff
+	with the previous version does not state exactly which
+	version the new iteration is compared against.
 
 
 Information
